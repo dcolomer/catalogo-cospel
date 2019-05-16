@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.catalogo.servicios.ServicioCatalogo;
 import com.catalogo.servicios.ServicioCatalogoService;
 import com.catalogo.beans.*;
-import com.catalogo.helpers.SecurityManager;
+import com.catalogo.servlets.helpers.SecurityManager;
 
 @WebServlet("/home")
 public class Home extends HttpServlet {

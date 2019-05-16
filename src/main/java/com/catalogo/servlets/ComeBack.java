@@ -1,6 +1,6 @@
 package com.catalogo.servlets;
 
-import com.catalogo.helpers.SecurityManager;
+import com.catalogo.servlets.helpers.SecurityManager;
 
 import java.io.IOException;
 

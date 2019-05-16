@@ -1,39 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
-    <Properties>
-        <Property name="log-path">logs</Property>
-    </Properties>
+<Configuration status="warn">
     <Appenders>
-        <Console name="console-log" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
+        <RollingFile name="fileLogger" fileName="${web:rootDir}/app.log" filePattern="${basePath}/app-info-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
+
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout   pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
         </Console>
-        <RollingFile name="trace-log" fileName="${log-path}/catalogo-trace.log"
-                     filePattern="${log-path}/catalogo-trace-%d{yyyy-MM-dd}.log">
-            <PatternLayout>
-                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
-            </PatternLayout>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
-            </Policies>
-        </RollingFile>
-        <RollingFile name="error-log" fileName="${log-path}/catalogo-error.log"
-                     filePattern="${log-path}/catalogo-error-%d{yyyy-MM-dd}.log">
-            <PatternLayout>
-                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
-            </PatternLayout>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
-            </Policies>
-        </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="com.catalogo.log4j2" level="debug" additivity="false">
-            <appender-ref ref="trace-log" level="debug"/>
-            <appender-ref ref="error-log" level="error"/>
-            <appender-ref ref="console-log" level="debug"/>
+        <Logger name="com.catalogo" level="debug" additivity="true">
+            <appender-ref ref="fileLogger" level="debug" />
         </Logger>
-        <Root level="info" additivity="false">
-            <AppenderRef ref="console-log"/>
+        <Root level="debug" additivity="false">
+            <appender-ref ref="console" />
         </Root>
     </Loggers>
 </Configuration>

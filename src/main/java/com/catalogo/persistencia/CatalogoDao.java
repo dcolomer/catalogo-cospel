@@ -24,7 +24,7 @@ import com.catalogo.beans.Promocion;
 
 public class CatalogoDao extends AbstractDao {
 
-    private final Logger log = LogManager.getLogger(CatalogoDao.class);
+    private static final Logger log = LogManager.getLogger(CatalogoDao.class);
 
     private static final int CATEGORIA_RAIZ = 0;
     private static final int OUTLET = 707;
@@ -38,7 +38,7 @@ public class CatalogoDao extends AbstractDao {
 
     public CatalogoDao() {
 
-        this.cache = new Cache();
+        cache = new Cache();
 
         // Cachear las categorias principales
         categoriasPrincipales = getCategorias(CATEGORIA_RAIZ);
@@ -70,7 +70,7 @@ public class CatalogoDao extends AbstractDao {
             return categoriasCacheadas().get(catPadre);
         }
 
-        final List<Categoria> categorias = new ArrayList<Categoria>();
+        final List<Categoria> categorias = new ArrayList<>();
 
         final String SQL = "SELECT category_id, category FROM category_descriptions where "
                 + "lang_code='ES' AND category_id IN (SELECT category_id FROM categories where "
@@ -78,11 +78,9 @@ public class CatalogoDao extends AbstractDao {
                 + catPadre
                 + " AND status='A') ORDER BY category";
 
-        Connection con = null;
-        ResultSet res = null;
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(SQL);
+        try (Connection con = ds.getConnection();
+                 ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             while (res.next()) {
                 categorias.add(crearCategoria(res));
             }
@@ -92,9 +90,8 @@ public class CatalogoDao extends AbstractDao {
 
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
+
         return categorias;
     }
 
@@ -105,15 +102,11 @@ public class CatalogoDao extends AbstractDao {
             return getIdCategoriaPadreCacheadas().get(subcategoria);
         }
 
-        String SQL = "SELECT parent_id FROM categories where category_id = "
-                + subcategoria;
+        final String SQL = "SELECT parent_id FROM categories where category_id = " + subcategoria;
 
-        Connection con = null;
-        ResultSet res = null;
-
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(SQL);
+       try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             if (res.next()) {
                 int id_parent = res.getInt("parent_id");
                 getIdCategoriaPadreCacheadas().put(subcategoria, id_parent);
@@ -121,8 +114,6 @@ public class CatalogoDao extends AbstractDao {
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
 
         return 0;
@@ -138,16 +129,13 @@ public class CatalogoDao extends AbstractDao {
             return pathCategoriasCacheadas().get(subcategoria);
         }
 
-        String SQL = "SELECT id_path FROM categories where category_id = "
+        final String SQL = "SELECT id_path FROM categories where category_id = "
                 + subcategoria;
         String resultado = "/";
 
-        Connection con = null;
-        ResultSet res = null;
-
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(SQL);
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             while (res.next()) {
                 final String categorias = res.getString("id_path");
                 final String[] arrayCat = categorias.split("/");
@@ -161,8 +149,6 @@ public class CatalogoDao extends AbstractDao {
 
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
 
         return resultado;
@@ -170,20 +156,16 @@ public class CatalogoDao extends AbstractDao {
 
     private String procesarPathCategorias(String resultado, Connection con,
                                           String categoria_id) {
-        String SQL = "SELECT category FROM category_descriptions where "
+        final String SQL = "SELECT category FROM category_descriptions where "
                 + "lang_code = 'ES' AND category_id = "
                 + Integer.parseInt(categoria_id);
 
-        ResultSet res = null;
-        try {
-            res = con.createStatement().executeQuery(SQL);
+        try (ResultSet res = con.createStatement().executeQuery(SQL)){
             if (res.next()) {
                 resultado += "/" + res.getString("category");
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res);
         }
         return resultado;
     }
@@ -194,23 +176,16 @@ public class CatalogoDao extends AbstractDao {
      */
     public List<Producto> getProductosPorDescripcion(final String texto) {
 
-        final List<Producto> productos = new ArrayList<Producto>();
-
-		/*final String SQL = "select d.product_id, d.product, c.category_id from "
-				+ "product_descriptions d, products_categories c where "
-				+ "d.lang_code='ES' AND d.product LIKE '%" + texto + "%' AND "
-				+ "c.product_id = d.product_id AND c.link_type='M'";*/
+        final List<Producto> productos = new ArrayList<>();
 
         final String SQL = "select d.product_id, d.product, c.category_id from "
                 + "product_descriptions d, products_categories c where "
                 + "d.lang_code='ES' AND d.product LIKE '%" + texto + "%' AND "
                 + "c.product_id = d.product_id";
 
-        Connection con = null;
-        ResultSet res = null;
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(SQL);
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             while (res.next()) {
                 int cat = res.getInt("category_id");
                 if (cat != OUTLET && cat != PACKS) {
@@ -219,9 +194,8 @@ public class CatalogoDao extends AbstractDao {
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
+
         return productos;
     }
 
@@ -233,23 +207,19 @@ public class CatalogoDao extends AbstractDao {
         Categoria categoria = new Categoria();
         categoria.setId(subcategoria);
 
-        String SQL = "select category from category_descriptions where lang_code = 'ES' and "
+        final String SQL = "select category from category_descriptions where lang_code = 'ES' and "
                 + " category_id = " + subcategoria;
 
-        Connection con = null;
-        ResultSet res = null;
-
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(SQL);
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             if (res.next()) {
                 categoria.setDescripcion(res.getString("category"));
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
+
         return categoria;
     }
 
@@ -264,21 +234,15 @@ public class CatalogoDao extends AbstractDao {
             return productosCacheados().get(subcategoria);
         }
 
-        final List<Producto> productos = new ArrayList<Producto>();
+        final List<Producto> productos = new ArrayList<>();
 
-		/*String SQL = "select product_id, product from product_descriptions where "
-				+ "lang_code='ES' AND product_id IN (select product_id from products_categories "
-				+ "where category_id = " + subcategoria + " AND link_type = 'M') ORDER BY product_id";*/
-
-        String SQL = "select product_id, product from product_descriptions where "
+		final String SQL = "select product_id, product from product_descriptions where "
                 + "lang_code='ES' AND product_id IN (select product_id from products_categories "
                 + "where category_id = " + subcategoria + ") ORDER BY product_id";
 
-        Connection con = null;
-        ResultSet res = null;
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(SQL);
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             while (res.next()) {
                 productos.add(crearProducto(res, subcategoria, false));
             }
@@ -288,8 +252,6 @@ public class CatalogoDao extends AbstractDao {
 
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
 
         return productos;
@@ -308,16 +270,14 @@ public class CatalogoDao extends AbstractDao {
         final List<Producto> productos = getProductos(subcategoria);
 
         for (Producto producto : productos) {
-            final String SQL = "select category_id from products_categories "
+            String SQL = "select category_id from products_categories "
                     + "where product_id = "
                     + producto.getId()
                     + " and link_type = 'M'";
 
-            Connection con = null;
-            ResultSet res = null;
-            try {
-                con = ds.getConnection();
-                res = con.createStatement().executeQuery(SQL);
+            try (Connection con = ds.getConnection();
+                 ResultSet res = con.createStatement().executeQuery(SQL))
+            {
                 while (res.next()) {
                     producto.setCategoria(getCategoria(res
                             .getInt("category_id")));
@@ -335,8 +295,6 @@ public class CatalogoDao extends AbstractDao {
 
             } catch (SQLException e) {
                 log.error(e);
-            } finally {
-                closeQuiet(res, con);
             }
         }
 
@@ -355,21 +313,17 @@ public class CatalogoDao extends AbstractDao {
                 + "where product_id = " + producto.getId()
                 + " and link_type <> 'M'";
 
-        final Stack<Categoria> pila = new Stack<Categoria>();
+        final Stack<Categoria> pila = new Stack<>();
 
-        Connection con = null;
-        ResultSet res = null;
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(SQL);
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             while (res.next()) {
-                final Categoria categoria = getCategoria(res.getInt("category_id"));
+                Categoria categoria = getCategoria(res.getInt("category_id"));
                 pila.push(categoria);
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
 
         return pila;
@@ -382,7 +336,7 @@ public class CatalogoDao extends AbstractDao {
      */
     public List<Promocion> getDescuentosCategoria() {
 
-        final List<Promocion> promociones = new ArrayList<Promocion>();
+        final List<Promocion> promociones = new ArrayList<>();
 
         /*
          * Obtener los codigos de categoria a partir de todas las promociones
@@ -395,13 +349,9 @@ public class CatalogoDao extends AbstractDao {
                 + "zone='catalog' and conditions like '%categories%' "
                 + "ORDER BY name, priority";
 
-        Connection con = null;
-        ResultSet res = null;
-
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(SQL);
-
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             while (res.next()) {
                 promociones.add(crearPromocion(res));
             }
@@ -410,8 +360,6 @@ public class CatalogoDao extends AbstractDao {
 
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
 
         return Collections.emptyList();
@@ -449,9 +397,6 @@ public class CatalogoDao extends AbstractDao {
      * A partir de esta lista se obtienen los descuentos de productos individuales.
      */
     public Map<Integer, Float> getDescuentosProductos() {
-
-        Map<Integer, Float> dtoProductosPromo = new HashMap<>();
-
         /*
          * Obtener los codigos de categoria a partir de todas las promociones
          */
@@ -462,14 +407,10 @@ public class CatalogoDao extends AbstractDao {
                 + "where d.lang_code = 'ES' AND p.promotion_id=d.promotion_id AND status='A' and "
                 + "zone='catalog' and conditions like '%products%'";
 
-        Connection con = null;
-        ResultSet res = null;
-
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(SQL);
-
-            dtoProductosPromo = new HashMap<>();
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
+            Map<Integer, Float> dtoProductosPromo = new HashMap<>();
 
             while (res.next()) {
                 float dto = res.getFloat("dto");
@@ -484,8 +425,6 @@ public class CatalogoDao extends AbstractDao {
 
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
 
         return Collections.emptyMap();
@@ -501,7 +440,7 @@ public class CatalogoDao extends AbstractDao {
             return productosOutletCacheados().get(subcategoria);
         }
 
-        final List<Producto> productos = new ArrayList<Producto>();
+        final List<Producto> productos = new ArrayList<>();
 
         final String SQL = "select p.product_id, d.product, p.list_price, pr.price from "
                 + "product_descriptions d, products p, product_prices pr where "
@@ -511,11 +450,9 @@ public class CatalogoDao extends AbstractDao {
                 + ") AND p.product_id=d.product_id AND "
                 + "p.product_id=pr.product_id";
 
-        Connection con = null;
-        ResultSet res = null;
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(SQL);
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             while (res.next()) {
                 productos.add(crearProducto(res, subcategoria, true));
             }
@@ -524,9 +461,8 @@ public class CatalogoDao extends AbstractDao {
 
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
+
         return productos;
     }
 
@@ -575,31 +511,20 @@ public class CatalogoDao extends AbstractDao {
 
     }
 
-
-    /*
-     * public static BigDecimal round(BigDecimal d, int scale, boolean roundUp)
-     * { int mode = (roundUp) ? BigDecimal.ROUND_UP : BigDecimal.ROUND_DOWN;
-     * return d.setScale(scale, mode); }
-     */
-
     /**
      * Obtener una pila de objetos Categoria a los que pertenece un
      * determinado producto.
      */
     private Stack<Categoria> getPilaCategorias(final Producto producto) {
 
-        Stack<Categoria> categorias = new Stack<Categoria>();
+        Stack<Categoria> categorias = new Stack<>();
 
         int cat_id = producto.getCategoria().getId();
-        String consulta = "SELECT id_path FROM categories where category_id = "
-                + cat_id;
+        final String SQL = "SELECT id_path FROM categories where category_id = " + cat_id;
 
-        Connection con = null;
-        ResultSet res = null;
-
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(consulta);
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             while (res.next()) {
                 String strCategorias = res.getString("id_path");
                 String[] arrayCat = strCategorias.split("/");
@@ -609,9 +534,8 @@ public class CatalogoDao extends AbstractDao {
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
+
         return categorias;
     }
 
@@ -622,45 +546,37 @@ public class CatalogoDao extends AbstractDao {
                 + "lang_code='ES' AND category_id = "
                 + Integer.parseInt(categoria_id);
 
-        ResultSet res = null;
-        try {
-            res = con.createStatement().executeQuery(SQL);
+        try (ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             while (res.next()) {
                 categorias.push(crearCategoria(res));
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res);
         }
     }
 
     private float getPrecioTarifa(final int product_id) {
-        String consulta = "select price from product_prices where product_id = "
-                + product_id;
+        final String SQL = "select price from product_prices where product_id = " + product_id;
         float precio = 0.0f;
 
-        Connection con = null;
-        ResultSet res = null;
-
-        try {
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(consulta);
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(SQL))
+        {
             if (res.next()) {
                 precio = res.getFloat("price");
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
+
         return precio;
     }
 
     private float getDtoCategoria(final Producto producto) {
 
         Integer idCategoria = producto.getCategoria().getId();
-        Collection<Promocion> promosCandidatas = new ArrayList<Promocion>();
+        Collection<Promocion> promosCandidatas = new ArrayList<>();
 
         for (Promocion promo : getPromociones()) {
             if (promo.getCategorias().contains(idCategoria)) {
@@ -687,7 +603,7 @@ public class CatalogoDao extends AbstractDao {
 
     private Float getDtoCategoriaPadre(Categoria categoria) {
         Integer idCategoria = categoria.getId();
-        ArrayList<Promocion> promosCandidatas = new ArrayList<Promocion>();
+        ArrayList<Promocion> promosCandidatas = new ArrayList<>();
 
         for (Promocion promo : getPromociones()) {
             if (promo.getCategorias().contains(idCategoria)) {

@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 @WebListener
 public class WebSessionListener implements HttpSessionListener {
 
-    private static Logger log = LogManager.getLogger(WebSessionListener.class);
+    private static final Logger log = LogManager.getLogger(WebSessionListener.class);
 
     public void sessionCreated(HttpSessionEvent sessionEvent) {
 

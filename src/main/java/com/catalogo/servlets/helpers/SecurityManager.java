@@ -1,4 +1,4 @@
-package com.catalogo.helpers;
+package com.catalogo.servlets.helpers;
 
 import javax.servlet.http.HttpServletRequest;
 

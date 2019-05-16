@@ -18,7 +18,7 @@ public class Login extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private final Logger log = LogManager.getLogger(Login.class);
+    private static final Logger log = LogManager.getLogger(Login.class);
 
     private String siguientePag = "";
 

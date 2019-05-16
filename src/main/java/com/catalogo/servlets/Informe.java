@@ -1,7 +1,8 @@
 package com.catalogo.servlets;
 
-import com.catalogo.helpers.ReportResourcesClassLoader;
-import com.catalogo.helpers.SecurityManager;
+import com.catalogo.servlets.helpers.CookieDownload;
+import com.catalogo.servlets.helpers.ReportResourcesClassLoader;
+import com.catalogo.servlets.helpers.SecurityManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +42,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 @WebServlet("/informe")
 public class Informe extends HttpServlet {
 
-    private static Logger log = LogManager.getLogger(Informe.class);
+    private static final Logger log = LogManager.getLogger(Informe.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -56,7 +57,7 @@ public class Informe extends HttpServlet {
 
             ServicioCatalogo servicioCatalogo = ServicioCatalogoService.getInstancia();
 
-            insertarCookieFileDownload(request, response);
+            response = CookieDownload.insertarCookie(request, response);
 
             boolean reportPorCategorias =
                     request.getParameter("categorias") != null;
@@ -68,9 +69,7 @@ public class Informe extends HttpServlet {
                 List<Categoria> categorias = (ArrayList<Categoria>) sesion.getAttribute("categorias");
                 List<Producto> productos = new ArrayList<Producto>();
 
-                for (Categoria categoria : categorias) {
-                    productos.addAll(servicioCatalogo.getProductos(categoria.getId()));
-                }
+                categorias.forEach(cat -> productos.addAll(servicioCatalogo.getProductos(cat.getId())));
 
                 sesion.setAttribute("productos", productos);
                 generarInforme(request, response, "catalogoAgrupado.jrxml");
@@ -78,28 +77,6 @@ public class Informe extends HttpServlet {
                 generarInforme(request, response, "catalogo.jrxml");
             }
         }
-    }
-
-    private void insertarCookieFileDownload(HttpServletRequest request,
-                                            HttpServletResponse response) {
-
-        Cookie[] cookies = request.getCookies();
-        boolean foundCookie = false;
-
-        for(int i = 0; i < cookies.length; i++) {
-            Cookie cookie = cookies[i];
-            if (cookie.getName().equals("fileDownload")) {
-                foundCookie = true;
-            }
-        }
-
-        if (!foundCookie) {
-            Cookie cookie = new Cookie("fileDownload", "true");
-            cookie.setPath("/");
-            cookie.setMaxAge(24*60*60);
-            response.addCookie(cookie);
-        }
-
     }
 
     private void generarInforme(HttpServletRequest request,

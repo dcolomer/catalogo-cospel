@@ -18,7 +18,7 @@ import com.catalogo.beans.Producto;
 
 class ImagenDao extends AbstractDao {
 
-    private Logger log = LogManager.getLogger(ImagenDao.class);
+    private static final Logger log = LogManager.getLogger(ImagenDao.class);
 
     public byte[] obtenerImagenArticulo(Producto producto) {
         byte[] imageInByte = null;
@@ -26,15 +26,13 @@ class ImagenDao extends AbstractDao {
 
         String folderImg = getProperty("rutaImg");
         String folderImgResolved = "no_disponible";
-        Connection con = null;
-        ResultSet res = null;
 
-        try {
-            String consulta = "select image_id, detailed_id from images_links where object_type='product' AND object_id = "
-                    + producto.getId();
-            con = ds.getConnection();
-            res = con.createStatement().executeQuery(consulta);
+        final String consulta = "select image_id, detailed_id from images_links where " +
+                "object_type='product' AND object_id = " + producto.getId();
 
+        try (Connection con = ds.getConnection();
+             ResultSet res = con.createStatement().executeQuery(consulta))
+        {
             if (res.next()) {
                 image_id = res.getInt("image_id");
                 if (image_id == 0) {
@@ -53,8 +51,6 @@ class ImagenDao extends AbstractDao {
 
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res, con);
         }
         return imageInByte;
     }
@@ -62,21 +58,18 @@ class ImagenDao extends AbstractDao {
     public String getFolderImageResolved(Connection con, String folderImg, int image_id) {
 
         String image_name = null;
-        ResultSet res = null;
 
-        try {
-            String consulta = "select image_path from images where image_id = "
-                    + image_id;
-            res = con.createStatement().executeQuery(consulta);
-            if (res.next()) {
+        final String consulta = "select image_path from images where image_id = " + image_id;
+
+        try (ResultSet res = con.createStatement().executeQuery(consulta))
+        {
+           if (res.next()) {
                 image_name = res.getString("image_path");
                 int floor = image_id / 1000;
                 folderImg += String.valueOf(floor) + "/" + image_name;
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            closeQuiet(res);
         }
 
         return folderImg;

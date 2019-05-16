@@ -1,12 +1,7 @@
 package com.catalogo.persistencia;
 
-//import java.io.IOException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Properties;
-//import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -40,23 +35,6 @@ abstract class AbstractDao {
 	protected String getProperty(final String clave) {
 		return properties.getProperty(clave);
 	}
-
-    protected void closeQuiet(final ResultSet res) {
-        closeQuiet(res, null);
-    }
-
-    protected void closeQuiet(final ResultSet res, final Connection con) {
-        try {
-            if (res != null) {
-                res.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        } catch (SQLException e) {
-            log.error(e);
-        }
-    }
 
 }
 

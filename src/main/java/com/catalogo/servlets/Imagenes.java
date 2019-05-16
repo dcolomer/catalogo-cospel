@@ -19,7 +19,7 @@ import com.catalogo.beans.Producto;
 @WebServlet("/imagenes")
 public class Imagenes extends HttpServlet {
 
-    private static Logger log = LogManager.getLogger(Imagenes.class);
+    private static final Logger log = LogManager.getLogger(Imagenes.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -36,8 +36,6 @@ public class Imagenes extends HttpServlet {
                     (ArrayList<Producto>) request.getSession()
                             .getAttribute("productos");
 
-            //Collections.sort(productos, Producto.comparadorProducto);
-
             Producto busquedaProd = new Producto();
             busquedaProd.setId(Integer.parseInt(codart));
 
@@ -53,20 +51,6 @@ public class Imagenes extends HttpServlet {
             response.getOutputStream().flush();
             response.getOutputStream().close();
 
-
-			/*for (Producto producto : productos) {
-				if (producto.getId() == Integer.parseInt(codart)) {
-					b_imagen = producto.getImagen();
-					if (b_imagen.length > 0) {
-						response.setContentType("image/jpeg");
-						response.setContentLength(b_imagen.length);
-						response.getOutputStream().write(b_imagen);
-						response.getOutputStream().flush();
-						response.getOutputStream().close();
-					}
-					break;
-				}
-			}*/
         } catch (Exception e) {
             log.error(e);
         }

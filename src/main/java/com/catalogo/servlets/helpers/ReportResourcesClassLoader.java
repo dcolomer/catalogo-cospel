@@ -1,4 +1,4 @@
-package com.catalogo.helpers;
+package com.catalogo.servlets.helpers;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -42,7 +42,7 @@ public class ReportResourcesClassLoader extends URLClassLoader {
  */
 class ReportResourcesHandler extends URLStreamHandler {
 
-    private Logger log = LogManager.getLogger(ReportResourcesHandler.class);
+    private static final Logger log = LogManager.getLogger(ReportResourcesHandler.class);
 
     private Map<String, byte[]> reportResources;
 
@@ -55,18 +55,13 @@ class ReportResourcesHandler extends URLStreamHandler {
         byte[] resourceBytes = reportResources.get(url.getPath());
 
         if (resourceBytes == null) {
-            /*
-             * Resources like default px image are in lib files visible from
-             * default class loader
-             */
             URL resourceURL = getClass().getClassLoader().getResource(
                     url.getPath());
             if (resourceURL != null) {
-                log.warn("Resource not found for URL: " + url);
+                log.warn("Recurso no encontrado para la URL: " + url);
                 return resourceURL.openConnection();
             }
             return null;
-            /* */
         }
         return new ReportResourceURLConnection(new ByteArrayInputStream(
                 resourceBytes));

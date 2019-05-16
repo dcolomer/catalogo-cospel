@@ -14,12 +14,16 @@ import javax.servlet.http.HttpSession;
 import com.catalogo.servicios.ServicioCatalogo;
 import com.catalogo.servicios.ServicioCatalogoService;
 import com.catalogo.beans.Producto;
-import com.catalogo.helpers.SecurityManager;
+import com.catalogo.servlets.helpers.SecurityManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @WebServlet("/buscarProductos")
 public class BuscarProductosPorDescripcion extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+
+    private static final Logger log = LogManager.getLogger(BuscarProductosPorDescripcion.class);
 
     private static final String RUTA_JSP = "/WEB-INF/jsp/";
 
@@ -43,6 +47,9 @@ public class BuscarProductosPorDescripcion extends HttpServlet {
 
             List<Producto> productos = servicioCatalogo.getProductosPorDescripcion(texto);
 
+            if (productos == null) {
+                log.info("La búsqueda de productos por descripción no ha producido resultados");
+            }
             sesion.setAttribute("productos", productos);
             dispatcher = sesion.getServletContext()
                     .getRequestDispatcher(RUTA_JSP + "productos.jsp");

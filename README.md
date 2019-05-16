@@ -39,8 +39,15 @@ En el directorio src/main/images-prod se proporciona un archivo comprimido que c
 
 Tendremos que descomprimir este archivo en una determinada ubicación y entonces informar de esta ruta en el fichero 'catalogo.properties', el cual se encuentra en 'src/main/resources'. Por ejemplo:
 
-- rutaImg=e:/imagenes-cosmetica/productos/product/
-- rutaImgDetail=e:/imagenes-cosmetica/productos/detailed/
+catalogo.properties
+~~~
+rutaImg = e:/imagenes-cosmetica/productos/product/
+rutaImgDetail = e:/imagenes-cosmetica/productos/detailed/
+~~~
+
+### Logs
+
+En la raiz de la carpeta web se genera el fichero **app.log** para almacenar los diferentes niveles de log.
 
 ### Construcción del proyecto y deploy en Tomcat
 
@@ -52,17 +59,18 @@ Configuración previa:
 
 Ejemplo:
 
-Fichero tomcat-users.xml:
+Fichero **tomcat-users.xml:**
 
-`<tomcat-users>
+~~~
+<tomcat-users>
 	<role rolename="manager-script"/>
 	<user username="maven" password="deployer" roles="manager-script"/>
-</tomcat-users>`
+</tomcat-users>
+~~~
 
-
-Fichero pom.xml:
-
-`<plugin>
+Fichero **pom.xml:**
+~~~
+<plugin>
     <groupId>org.apache.tomcat.maven</groupId>
     <artifactId>tomcat7-maven-plugin</artifactId>
     <version>2.2</version>
@@ -72,8 +80,8 @@ Fichero pom.xml:
         <password>deployer</password>
         <update>true</update>
     </configuration>
-</plugin>`
-
+</plugin>
+~~~
 Pasos para el despliegue y redespliegue del proyecto:
 
 1. Nos aseguramos de tener Tomcat en marcha.

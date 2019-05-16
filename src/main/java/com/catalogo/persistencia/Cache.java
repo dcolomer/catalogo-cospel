@@ -12,7 +12,7 @@ import com.catalogo.beans.Producto;
 
 class Cache {
 
-    private final Logger log = LogManager.getLogger(Cache.class);
+    private static final Logger log = LogManager.getLogger(Cache.class);
 
     private Map<Integer, List<Categoria>> categoriasCacheadas;
     private Map<Integer, String> pathCategoriasCacheadas;
@@ -24,13 +24,13 @@ class Cache {
     private Map<Integer, List<Producto>> productosOutletCacheados;
 
     Cache() {
-        productosCacheados = new HashMap<Integer, List<Producto>>();
-        productosPacksCacheados = new HashMap<Integer, List<Producto>>();
-        productosOutletCacheados = new HashMap<Integer, List<Producto>>();
+        productosCacheados = new HashMap<>();
+        productosPacksCacheados = new HashMap<>();
+        productosOutletCacheados = new HashMap<>();
 
-        categoriasCacheadas = new HashMap<Integer, List<Categoria>>();
-        pathCategoriasCacheadas = new HashMap<Integer, String>();
-        idCategoriaPadreCacheadas = new HashMap<Integer, Integer>();
+        categoriasCacheadas = new HashMap<>();
+        pathCategoriasCacheadas = new HashMap<>();
+        idCategoriaPadreCacheadas = new HashMap<>();
 
         log.debug("******************* Objecto Cache instanciado");
     }
