@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<title>Catálogo - Error de validación</title>
+	<script src="js/niceforms.js"></script>
+	<script src="js/utiles.js"></script>
+	<link rel="stylesheet" href="css/niceforms-default.css" />
+	<style>
+		p.titulo {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 2.5em;
+			color: white;
+			width: 100%;
+			text-align: center;
+			text-shadow: black 0.1em 0.1em 0.2em
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<form class="niceform">
+			<fieldset>
+				<p class="titulo">Catálogo peluquería y cosmética</p>
+			</fieldset>
+			<fieldset>
+				<legend>¡Hey, vigila!</legend>
+				<label style="font-size:medium" for="btnRetry">El nombre de usuario no pertenece al sistema o la contraseña no se corresponde</label>
+			</fieldset>
+			<fieldset class="action" align="center">
+				<input type="button" name="btnRetry" id="btnRetry"
+					value="Reintentar" onclick="go_login();"/>
+			</fieldset>
+		</form>
+	</div>
+	<p align="center" id="footer">
+		Cat&aacute;logo 1.0<br />
+		&copy;&nbsp;Daniel Colomer Trav&eacute; - <a href="http://colomertrave.com">colomertrave.com</a><br />
+		2013
+	</p>
+</body>
+</html>

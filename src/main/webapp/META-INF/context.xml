@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/Catalogo" docBase="" debug="5" reloadable="true"
+	crossContext="true">
+
+    <Resource name="jdbc/catalogo" auth="Container" type="javax.sql.DataSource"
+		maxTotal="30" maxIdle="30" maxWaitMillis="10000" username="catalogo"
+		password="catalogo" driverClassName="com.mysql.cj.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/catalogo_cospel?serverTimezone=UTC&amp;useSSL=false" />
+
+</Context>

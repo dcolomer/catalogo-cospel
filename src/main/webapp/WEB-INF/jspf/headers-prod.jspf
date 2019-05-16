@@ -1,0 +1,13 @@
+<script src="js/file_download.js"></script>
+<script src="js/multizoom.js"></script>
+
+<script>
+    jQuery(document).ready(function() {
+        <c:forEach var="producto" items="${sessionScope['productos']}">
+        jQuery('#${producto.id}').addimagezoom();
+        </c:forEach>
+    });
+</script>
+
+<link rel="stylesheet" href="css/multizoom.css" />
+<link rel="stylesheet" href="css/table-prod.css" />

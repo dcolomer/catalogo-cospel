@@ -1,0 +1,48 @@
+<pg:pager url="productos.go" maxIndexPages="10" maxPageItems="3"
+          export="currentPageNumber=pageNumber" index="center"
+          scope="request">
+    <pg:param name="pg" />
+    <pg:param name="position" />
+
+    <c:set var="numCols" value="1" />
+    <c:set var="productos" value="${sessionScope['productos']}" />
+
+    <%@ include file="/WEB-INF/jspf/tabla-prod.jspf"%>
+
+    <c:if test="${fn:length(productos) > 3}">
+        <table id="navegacion">
+            <tr>
+                <td align="left"></td>
+                <td align="right" nowrap width="1%">
+                    <pg:index export="total=itemCount">
+                        <pg:page export="first,last">
+                            <span style="border-radius:5px; margin-right: 0.2em; background: black; color: yellowgreen; padding: 0.3em;">
+                                <%=first%> - <%=last%> de <%=total%>
+                            </span>
+                        </pg:page>
+                        <pg:first export="url" unless="current">
+                            <span style="border-radius:5px; margin-right: 0.2em; background: black; color: yellowgreen; padding: 0.3em;">
+                                <a href="<%=url%>"> Primera </a>
+                            </span>
+                        </pg:first>
+                        <pg:prev export="url,first,last">
+                            <span style="border-radius:5px; margin-right: 0.2em; background: black; color: yellowgreen; padding: 0.3em;">
+                                <a href="<%=url%>"> Anterior </a>
+                            </span>
+                        </pg:prev>
+                        <pg:next export="url,first,last">
+                            <span style="border-radius:5px; margin-right: 0.2em; background: black; color: yellowgreen; padding: 0.3em;">
+                                <a href="<%=url%>"> Siguiente </a>
+                            </span>
+                        </pg:next>
+                        <pg:last export="url" unless="current">
+                            <span style="border-radius:5px; margin-right: 0.2em; background: black; color: yellowgreen; padding: 0.3em;">
+                                <a href="<%=url%>"> &Uacute;ltima </a>
+                            </span>
+                        </pg:last>
+                    </pg:index>
+                </td>
+            </tr>
+        </table>
+    </c:if>
+</pg:pager>

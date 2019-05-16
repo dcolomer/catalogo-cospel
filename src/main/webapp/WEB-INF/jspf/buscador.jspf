@@ -1,0 +1,49 @@
+<div id="busqueda-dialog" title="Buscar productos">
+    <p class="validateTips">Escribe algun texto que ayude a localizar al producto</p>
+
+    <form id="form-busqueda" action="buscarProductos">
+        <fieldset>
+            <label for="texto">Texto</label>
+            <input type="text" name="texto" id="texto" size="80"/>
+        </fieldset>
+    </form>
+</div>
+
+<script>
+    jQuery(function(){
+        jQuery( "#busqueda-dialog" ).dialog({
+            autoOpen: false,
+            height: 300,
+            width: 650,
+            modal: true,
+            buttons: {
+                "Buscar": function() {
+                    var varTexto = $('#texto').val();
+
+                    if ( varTexto != '' ) {
+                        jQuery.ajax({
+                            type: 'POST',
+                            url: "buscarProductos",
+                            data: "texto=" + varTexto,
+                            success: function(){
+                                window.location='productos.go';
+                            }
+                        });
+
+                        jQuery( this ).dialog( "close" );
+                    }
+                },
+                Cancel: function() {
+                    jQuery( this ).dialog( "close" );
+                }
+            },
+            close: function() {
+            }
+        });
+
+        jQuery(".btnBuscar").click(function(){
+            jQuery("#busqueda-dialog").dialog("open");
+        });
+
+    });
+</script>

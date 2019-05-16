@@ -1,0 +1,10 @@
+<meta charset=UTF-8">
+
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/niceforms.js"></script>
+<script src="js/utiles.js"></script>
+
+<link rel="stylesheet" href="css/niceforms-default.css" />
+<link rel="stylesheet" href="css/jquery-ui.css" />
+<link rel="stylesheet" href="css/app.css" />

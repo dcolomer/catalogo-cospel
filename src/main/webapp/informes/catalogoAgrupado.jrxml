@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="catalogoAgrupado" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="47f86b1e-4940-491a-b44f-b4a9352e9aa0">
+    <import value="com.catalogo.helpers.ReportResourcesClassLoader"/>
+    <parameter name="P_TITULO" class="java.lang.String"/>
+    <parameter name="P_SUBTITULO" class="java.lang.String"/>
+    <parameter name="LOGO_URL" class="java.lang.String"/>
+    <parameter name="rrcl" class="com.catalogo.helpers.ReportResourcesClassLoader"/>
+    <field name="id" class="java.lang.Integer"/>
+    <field name="categoria" class="com.catalogo.beans.Categoria"/>
+    <field name="descripcion" class="java.lang.String"/>
+    <field name="precioTarifa" class="java.lang.Float"/>
+    <field name="dto" class="java.lang.Float"/>
+    <field name="precio" class="java.lang.Float"/>
+    <field name="pathImagen" class="java.lang.String"/>
+    <variable name="currentPage" class="java.lang.Integer" resetType="Page">
+        <variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
+    </variable>
+    <variable name="TotalCategorias" class="java.lang.Integer" incrementType="Group" incrementGroup="GrupoCategoria" calculation="Count">
+        <variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+    </variable>
+    <group name="GrupoCategoria" minHeightToStartNewPage="60">
+        <groupExpression><![CDATA[$F{categoria}]]></groupExpression>
+        <groupHeader>
+            <band height="30">
+                <textField evaluationTime="Group" evaluationGroup="GrupoCategoria" bookmarkLevel="1">
+                    <reportElement uuid="85dbcf84-3a7d-41c0-9c4d-eb65615f4a9c" mode="Opaque" x="0" y="5" width="550" height="25" backcolor="#C0C0C0"/>
+                    <box leftPadding="10">
+                        <bottomPen lineWidth="1.0"/>
+                    </box>
+                    <textElement verticalAlignment="Middle">
+                        <font size="12" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA["  " + String.valueOf($V{TotalCategorias}) + ") " + String.valueOf($F{categoria})]]></textFieldExpression>
+                    <anchorNameExpression><![CDATA[String.valueOf($F{categoria})]]></anchorNameExpression>
+                </textField>
+            </band>
+        </groupHeader>
+        <groupFooter>
+            <band height="20">
+                <staticText>
+                    <reportElement uuid="73f743f5-1e6b-438d-8424-1ca9c089d5c0" x="430" y="3" width="90" height="15"/>
+                    <textElement textAlignment="Right"/>
+                    <text><![CDATA[Total productos: ]]></text>
+                </staticText>
+                <textField>
+                    <reportElement uuid="9c9d812f-029d-437f-9b6f-723fedf01700" x="500" y="3" width="50" height="15"/>
+                    <textElement textAlignment="Right"/>
+                    <textFieldExpression><![CDATA[$V{GrupoCategoria_COUNT}]]></textFieldExpression>
+                </textField>
+            </band>
+        </groupFooter>
+    </group>
+    <background>
+        <band height="96" splitType="Stretch">
+            <printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+            <image>
+                <reportElement uuid="f611ba0d-1ad8-453e-a243-def742a427f4" x="165" y="0" width="401" height="46"/>
+                <imageExpression><![CDATA[$P{LOGO_URL}]]></imageExpression>
+            </image>
+        </band>
+    </background>
+    <title>
+        <band height="80" splitType="Stretch">
+            <textField>
+                <reportElement uuid="356503fe-b5de-4abd-83b6-1e79938c93ee" x="20" y="50" width="260" height="30"/>
+                <textElement>
+                    <font size="20" isBold="true" pdfFontName="Helvetica-Bold"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{P_TITULO}]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement uuid="a233cdf9-a0be-4445-b1e7-2b7f9bdb3096" key="line" x="0" y="79" width="550" height="1"/>
+            </line>
+            <textField>
+                <reportElement uuid="871353b7-e6cc-47b9-9714-b893efebe8e6" key="textField" x="300" y="59" width="250" height="20"/>
+                <textElement>
+                    <font size="14" pdfFontName="Helvetica-Bold"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{P_SUBTITULO}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="30" splitType="Stretch">
+            <staticText>
+                <reportElement uuid="01408f1a-a7fb-4399-a6db-a7e0512ba2cf" key="staticText" x="0" y="17" width="250" height="13"/>
+                <textElement>
+                    <font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+                </textElement>
+                <text><![CDATA[Descripcion]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="27964731-aef6-4405-9f52-ed90976c8d8b" x="290" y="17" width="80" height="13"/>
+                <textElement textAlignment="Right">
+                    <font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+                </textElement>
+                <text><![CDATA[Precio tarifa]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="d40c010f-3337-45f3-b3a6-bd9470184196" x="390" y="17" width="35" height="13"/>
+                <textElement>
+                    <font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+                </textElement>
+                <text><![CDATA[Dto.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="5ae34dee-4b0c-45e2-a292-df944fe6e5b1" x="440" y="17" width="45" height="13"/>
+                <textElement>
+                    <font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+                </textElement>
+                <text><![CDATA[Precio]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="60" splitType="Stretch">
+            <rectangle>
+                <reportElement uuid="47a8fba7-3105-4e7d-9ee2-f740a718f9e0" key="" mode="Opaque" x="0" y="1" width="480" height="59" forecolor="#FFFFFF" backcolor="#E6E6FA">
+                    <printWhenExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></printWhenExpression>
+                </reportElement>
+            </rectangle>
+            <textField>
+                <reportElement uuid="83f64c45-763f-4d0a-b8ba-827b87e37b9c" x="0" y="10" width="300" height="13"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00€">
+                <reportElement uuid="4d8a6029-f87d-4a5c-b207-cb08beb7d73a" x="310" y="10" width="60" height="13"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$F{precioTarifa}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.###;(#,##0.###-)">
+                <reportElement uuid="44f574e5-3e66-41a7-94fb-6e50372a82b4" x="380" y="10" width="45" height="13"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{dto} + "%"]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00€">
+                <reportElement uuid="4e25498b-1f3c-46d9-acca-ca68a7518c01" x="425" y="10" width="45" height="13"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+            </textField>
+            <image scaleImage="RealHeight" isLazy="true" onErrorType="Blank">
+                <reportElement uuid="8542828d-bc7f-44df-bac2-854692e59636" x="490" y="3" width="60" height="55"/>
+                <imageExpression><![CDATA[$P{rrcl}.findResource(String.valueOf($F{id}))]]></imageExpression>
+            </image>
+        </band>
+    </detail>
+    <pageFooter>
+        <band height="50">
+            <textField evaluationTime="Auto">
+                <reportElement uuid="bb7d6a95-5b42-4e95-864b-2d73553c46e3" x="457" y="36" width="98" height="14"/>
+                <textElement/>
+                <textFieldExpression><![CDATA["Página " + $V{currentPage} + " de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <textField pattern="EEEEE dd MMMMM yyyy">
+                <reportElement uuid="6d93955e-4442-4d0a-9fa4-e289475dee65" key="textField" x="0" y="36" width="110" height="14"/>
+                <textElement textAlignment="Right">
+                    <font size="10" pdfFontName="Helvetica-Bold"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+</jasperReport>

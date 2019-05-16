@@ -1,0 +1,25 @@
+<table id="prodTabla">
+    <tr style="background-color: #A6B4BF; font-size: medium;">
+        <th>Descripci&oacute;n</th><th>Precio tarifa</th><th>Dto.</th><th>Precio venta</th><th>Imagen</th>
+    </tr>
+
+    <c:forEach var="producto" items="${productos}">
+        <pg:item>
+            <tr style="font-size: small;">
+                <td width="45%"><span style="font-weight: bold"><c:out value="${producto.descripcion}" /></span></td>
+                <td width="15%" align="right"><fmt:formatNumber
+                        value="${producto.precioTarifa}" type="CURRENCY"></fmt:formatNumber>
+                </td>
+                <td width="10%" align="center"><fmt:formatNumber
+                        value="${producto.dto}" maxFractionDigits="2"
+                        minFractionDigits="2" type="NUMBER"></fmt:formatNumber>%</td>
+                <td width="15%" align="right"><fmt:formatNumber
+                        value="${producto.precio}" type="CURRENCY"></fmt:formatNumber>
+                </td>
+                <td width="15%"><img id="${producto.id}" width="100"
+                                     height="100" border="1" src="imagenes?codart=${producto.id}">
+                </td>
+            </tr>
+        </pg:item>
+    </c:forEach>
+</table>

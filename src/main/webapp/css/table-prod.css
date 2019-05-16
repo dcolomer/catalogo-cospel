@@ -1,0 +1,25 @@
+#prodTabla th, td {
+    padding: 10px;
+}
+
+#prodTabla tr:nth-child(odd) {
+     background-color: #D6E7FA;
+}
+
+#prodTabla tr:nth-child(even) {
+    background-color: #E8F1FE;
+}
+
+#prodTabla tr:hover {
+    background-color: #DFFAC4;
+}
+
+#navegacion {
+    padding: 2px;
+    background-color:#CCB9CD;
+}
+
+a:link,a:visited,a:active {
+    color: yellowgreen;
+    text-decoration: none;
+}

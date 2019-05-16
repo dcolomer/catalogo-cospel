@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Catálogo - Acceso</title>
+	<script src="js/niceforms.js"></script>
+	<link rel="stylesheet" href="css/niceforms-default.css" />
+	<link rel="stylesheet" href="css/app.css" />
+	<style>
+		p.titulo {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 2.5em;
+			color: white;
+			width: 100%;
+			text-align: center;
+			text-shadow: black 0.1em 0.1em 0.2em
+		}
+	</style>
+</head>
+<body>
+	<div id="container" class="animated fadeIn">
+		<form method="post" action="login" class="niceform">
+			<fieldset>
+				<p class="titulo">Catálogo peluquería y cosmética</p>
+			</fieldset>
+			<fieldset>
+				<label style="font-size:large">¿Quién eres?</label>
+			</fieldset>
+			<fieldset>
+				<legend>Validación de usuario</legend>
+				<dl>
+					<dt style="width: 30%">
+						<label for="txtUsuario">Usuario:</label>
+					</dt>
+					<dd style="width: 60%">
+						<input type="text" name="txtUsuario" id="txtUsuario" size="30" maxlength="30" />
+					</dd>
+				</dl>
+				<dl>
+					<dt style="width: 30%">
+						<label for="txtContrasenya">Password:</label>
+					</dt>
+					<dd style="width: 60%">
+						<input type="password" name="txtContrasenya" id="txtContrasenya" size="30" maxlength="30" />
+					</dd>
+				</dl>
+			</fieldset>
+			<fieldset class="action" align="center">
+				<input type="submit" name="btnSubmit" id="btnSubmit" value="Acceder" />
+			</fieldset>
+		</form>
+	</div>
+	<p align="center" id="footer">
+	Cat&aacute;logo 1.0<br />
+	&copy;&nbsp;Daniel Colomer Trav&eacute; - <a href="http://colomertrave.com">colomertrave.com</a><br />
+	2013
+	</p>
+</body>
+</html>
