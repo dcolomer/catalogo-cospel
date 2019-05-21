@@ -2,13 +2,63 @@
 ## Consulta de catálogo virtual páginado en backend y generación de PDF's
 > ### Catálogo virtual de productos profesionales de peluquería y cosmética para mayoristas
 
-### Tecnologías
+## Tecnologías
 - Frontend: HTML5, CSS3, JavaScript, JQuery 
 - Backend: Java/Servlets/JSP (Tomcat 8.5)
 - Base de datos: MySQL 8
 - Construcción proyecto: Maven 3.5
 
-### Bases de datos
+## Capturas de pantalla
+A continuación se muestra visualmente las principales funcionalidades de la aplicación.
+
+### Inicio de la aplicación
+Se accede a la aplicación mediante la URL http://localhost:8080/catalogo-cosmetica/  
+
+![Inicio](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/01.png)
+
+### Login
+Para acceder a la aplicación se debe introducir el usuario 'catalogo' y la contraseña 'catalogo'. Esta información no está almacenada en en la base de datos, sencillamente se encuentra 'hardcoded' en el propio código fuente (mala práctica...esto no se debe hacer jamás en una aplicación en producción)
+
+![Login](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/02.png)
+
+### Catelorías principales
+Una vez validados nos encontramos en la pantalla raíz de categorías. Vamos a seleccionar para esta ocasión la categoría 'peluquería', para lo cual podemos hacer doble click sobre el ítem 'peluquería' o bien solamente un click y a continuación pulsar el botón 'Acceder a la categoría':
+
+![Categoria principal](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/03.png)
+
+### Subcatelorías
+Ahora podemos seleccionar un fabricante de productos de peluquería. Seleccionamos, por ejemplo, L'Oreal, para lo cual podemos hacer doble click sobre el ítem 'L'Oreal' o bien solamente un click y a continuación pulsar el botón 'Acceder':
+
+![Fabricante de peluquería](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/04.png)
+
+### Líneas de productos
+A continuación se nos muestran las diferentes líneas de productos del fabricante. Podemos seleccionar 'Expert', para lo cual podemos hacer doble click sobre el ítem 'Expert' o bien solamente un click y a continuación pulsar el botón 'Acceder':
+
+![Líneas de productos](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/05.png)
+
+### Sublíneas de productos
+Habitualmente una línea de productos está formada por diversas sublíneas. En nuestro caso vamos a seleccionar 'Vitamino color', para lo cual podemos hacer doble click sobre el ítem 'Vitamino color' o bien solamente un click y a continuación pulsar el botón 'Acceder':
+
+![Subíneas de productos](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/06.png)
+
+### Productos
+En este punto se nos muestra en forma tabular los diferentes productos de la línea de productos que hemos seleccionado. Vemos la descripción, precio, descuento y una imagen. Los productos aparecen paginados de tres en tres, por lo que podremos avanzar de página en página mediante los botones de la parte inferior-derecha de la pantalla. Es posible hacer un zoom de la imagen situando el cursor del ratón encima:
+
+![Productos](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/07.png)
+
+### Generación de PDF
+Podemos generar un PDF con la información de productos que se encuentre en pantalla. Para ello, sencillamente tenemos que pulsar el botón 'Generar PDF':
+
+![PDF Dialog](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/08a.png)  
+![PDF abierto](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/08b.png)
+
+### Búsqueda de productos
+
+Mediante el botón 'Buscar productos' se nos mostrará una ventana en la que podremos escribir texto relacionado con la descripción de los productos. Esta opción es útil cuando queremos obtener una relación de productos que tenga una descripción similar pero pertenezcan a diferentes fabricantes. Por ejemplo, un caso sería querer obtener cepillos, sea quien sea el fabricante:
+
+![Buscar Dialog](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/09.png)
+
+## Bases de datos
 La base de datos se llama 'catalogo-cospel' y en el directorio src/main/db se proporciona un archivo comprimido de tipo sql, el cual contiene la estructura y los datos necesarios para el correcto funcionamiento de la aplicación.
 
 Las tablas de la base de datos son las siguientes:
@@ -33,7 +83,7 @@ Las credenciales para la conexión Tomcat-MySQL son:
 
 Por tanto, en MySQL hay que definir un usuario con estas credenciales y con permimos CRUD para la base de datos 'catalogo_cospel'.
 
-### Imágenes del catálogo
+## Imágenes de los productos del catálogo
 
 En el directorio src/main/images-prod se proporciona un archivo comprimido que contiene las imágenes de los productos del catálogo.
 
@@ -45,11 +95,11 @@ rutaImg = e:/imagenes-cosmetica/productos/product/
 rutaImgDetail = e:/imagenes-cosmetica/productos/detailed/
 ~~~
 
-### Logs
+## Logs
 
 En la raiz de la carpeta web se genera el fichero **app.log** para almacenar los diferentes niveles de log.
 
-### Construcción del proyecto y deploy en Tomcat
+## Construcción del proyecto y deploy en Tomcat
 
 Configuración previa:
  
