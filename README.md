@@ -21,12 +21,12 @@ Para acceder a la aplicación se debe introducir el usuario 'catalogo' y la cont
 
 ![Login](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/02.png)
 
-### Catelorías principales
+### Categorías principales
 Una vez validados nos encontramos en la pantalla raíz de categorías. Vamos a seleccionar para esta ocasión la categoría 'peluquería', para lo cual podemos hacer doble click sobre el ítem 'peluquería' o bien solamente un click y a continuación pulsar el botón 'Acceder a la categoría':
 
 ![Categoria principal](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/03.png)
 
-### Subcatelorías
+### Subcategorías
 Ahora podemos seleccionar un fabricante de productos de peluquería. Seleccionamos, por ejemplo, L'Oreal, para lo cual podemos hacer doble click sobre el ítem 'L'Oreal' o bien solamente un click y a continuación pulsar el botón 'Acceder':
 
 ![Fabricante de peluquería](https://github.com/dcolomer/catalogo-cospel/blob/master/src/main/screenshots/04.png)
