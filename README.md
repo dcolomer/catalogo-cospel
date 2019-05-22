@@ -120,17 +120,21 @@ Fichero **tomcat-users.xml:**
 
 Fichero **pom.xml:**
 ~~~
-<plugin>
-    <groupId>org.apache.tomcat.maven</groupId>
-    <artifactId>tomcat7-maven-plugin</artifactId>
-    <version>2.2</version>
-    <configuration>
-        <url>http://localhost:8080/manager/text</url>
-        <username>maven</username>
-        <password>deployer</password>
-        <update>true</update>
-    </configuration>
-</plugin>
+<build>
+    <plugins>
+        <plugin>
+	    <groupId>org.apache.tomcat.maven</groupId>
+	    <artifactId>tomcat7-maven-plugin</artifactId>
+	    <version>2.2</version>
+	    <configuration>
+		<url>http://localhost:8080/manager/text</url>
+		<username>maven</username>
+		<password>deployer</password>
+		<update>true</update>
+	    </configuration>
+        </plugin>
+    </plugins>
+</build>
 ~~~
 Pasos para el despliegue y redespliegue del proyecto:
 
